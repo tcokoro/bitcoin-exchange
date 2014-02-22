@@ -23,9 +23,11 @@ class RateExchange < ActiveRecord::Base
 
 	
 	def self.getQuoteUSD(orderBook, orderBookType, amt)
+		btcPrice = HTTParty.get('https://www.bitstamp.net/api/ticker/')['last'].to_f
+
 		price = 0
 		book = orderBook[orderBookType]
-		current_amt = amt
+		current_amt = (amt * btcPrice * 0.99)/btcPrice
 		depth = 0
 
 		while current_amt > 0
@@ -44,7 +46,7 @@ class RateExchange < ActiveRecord::Base
 	def self.getQuoteBTC(orderBook, orderBookType, amt)
 		price = 0
 		book = orderBook[orderBookType]
-		current_amt = amt
+		current_amt = 0.99 * amt
 		depth = 0
 
 		while current_amt > 0

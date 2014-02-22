@@ -1,0 +1,2 @@
+module RateExchangesHelper
+end
